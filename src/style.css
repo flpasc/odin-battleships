@@ -1,0 +1,98 @@
+body {
+	padding: 0;
+	margin: 0;
+}
+
+.header {
+	text-align: center;
+	padding: 2vh;
+	width: 100vw;
+}
+
+.game {
+	margin: 0;
+	height: 90vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.player {
+	background-color: rgb(83, 167, 83);
+	height: 60%;
+	width: 10vw;
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid black;
+}
+
+#board {
+	background-color: rgb(184, 178, 178);
+	min-height: 800px;
+	min-width: 800px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.shipboard,
+.opponend {
+	margin: 5px;
+	padding: 0;
+	height: 400px;
+	width: 400px;
+	display: grid;
+	grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+	gap: 0;
+}
+
+.footer {
+	width: 100vw;
+	position: absolute;
+	bottom: 0;
+	padding: 2vh;
+
+	text-align: center;
+}
+
+#new-game-popup {
+	text-align: center;
+	width: 250px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background-color: rgba(128, 128, 128, 0.59);
+}
+
+input {
+	margin: 10px;
+}
+
+.field {
+	width: 100%;
+	height: 100%;
+	background-color: rgb(121, 188, 121);
+	border: 1px solid black;
+}
+
+.occupied {
+	background-color: black;
+}
+
+.empty,
+.ship {
+	background-color: blue;
+}
+
+.ship {
+	background-color: yellow;
+}
+
+.hit {
+	background-color: red;
+}
