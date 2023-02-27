@@ -19,35 +19,68 @@ body {
 	justify-content: center;
 }
 
-.player {
+.player-one,
+.player-two {
 	background-color: rgb(83, 167, 83);
 	height: 60%;
 	width: 10vw;
 	padding: 5px;
-	margin: 5px;
+	margin: 20px;
 	border: 1px solid black;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
+	border: 4px solid black;
+	box-shadow: 5px 5px 5px black;
+
+	color: white;
+}
+
+.player-one {
+	background-image: url("./img/pirate.png");
+}
+
+.player-two {
+	background-image: url("./img/pirate\ cat.jpeg");
+	background-position: -360px;
 }
 
 #board {
 	background-color: rgb(184, 178, 178);
-	min-height: 800px;
-	min-width: 800px;
+	min-height: 900px;
+	min-width: 900px;
+	border: 2px solid black;
 
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	align-items: center;
 	justify-content: center;
+
+	background-image: url(./img/darksea.jpeg);
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .shipboard,
 .opponend {
-	margin: 5px;
-	padding: 0;
+	margin: 30px;
+	padding: 0px;
 	height: 400px;
 	width: 400px;
 	display: grid;
 	grid-template: repeat(10, 1fr) / repeat(10, 1fr);
 	gap: 0;
+
+	border: 2px solid black;
+}
+
+.shipboard {
+	justify-self: left;
+}
+
+.opponend {
+	justify-self: right;
 }
 
 .footer {
@@ -80,27 +113,23 @@ input {
 .field {
 	width: 100%;
 	height: 100%;
-	background-color: rgb(121, 188, 121);
-	border: 1px solid black;
+	background-color: rgba(77, 180, 77, 0.619);
+	border: 2px solid black;
 }
 
 .occupied {
-	background-color: black;
+	background-color: rgb(10, 47, 34);
 }
 
 .empty,
 .ship {
-	background-color: blue;
-}
-
-.ship {
-	background-color: yellow;
+	background-color: rgba(54, 54, 212, 0.564);
 }
 
 .hit {
-	background-color: red;
+	background-color: rgba(170, 12, 12, 0.652);
 }
 
 .miss {
-	background-color: grey;
+	background-color: rgba(42, 170, 239, 0.737);
 }
