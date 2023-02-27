@@ -1,6 +1,7 @@
 import Player from "../src/factories/player";
 import DOMHandler from "./DOMHandler";
 import Ship from "../src/factories/Ship";
+import { gameOverPrompt } from "./gameOverPrompt";
 
 export default class Gamemanager {
 	static players = [];
@@ -25,6 +26,14 @@ export default class Gamemanager {
 
 		Gamemanager.players.push(player);
 	}
+
+	static resetGame() {
+		DOMHandler.closeGameOverPopup();
+
+		this.players = [];
+		this.turn = 0;
+	}
+
 	static toggleActivePlayer() {
 		if (Gamemanager.activePlayer === Gamemanager.players[0]) {
 			Gamemanager.activePlayer = Gamemanager.players[1];
@@ -50,7 +59,8 @@ export default class Gamemanager {
 	}
 
 	static gameOver() {
-		console.log("gameover");
+		DOMHandler.clearGame();
+		gameOverPrompt();
 	}
 
 	static deployRandomShips() {
@@ -62,27 +72,30 @@ export default class Gamemanager {
 	}
 
 	static handleClick(ship) {
-		let shipID = ship.getAttribute("data-id");
+		let shipID = Number(ship.getAttribute("data-id"));
 		let endTurn = false;
 
 		while (endTurn === false) {
-			if (Gamemanager.activePlayer.fireShot(shipID)) {
+			if (Gamemanager.activePlayer.fireShot(shipID, Gamemanager.players[1])) {
 				DOMHandler.clearOpponendGameboard();
-				DOMHandler.printOpponentsGameboard(Gamemanager.passivePlayer.gameboard.opponentsBoard());
+				DOMHandler.printOpponentsGameboard(Gamemanager.players[1].gameboard.opponentsBoard());
 
-				if (Gamemanager.passivePlayer.gameboard.allShipsSunk()) {
+				if (Gamemanager.players[1].gameboard.allShipsSunk()) {
 					endTurn = true;
-
 					Gamemanager.gameOver();
 				}
-
 				return;
 			} else {
 				endTurn = true;
 			}
 		}
+		if (endTurn === true) {
+			Gamemanager.toggleActivePlayer();
+			Gamemanager.players[1].gameboard.cpuTurn();
+			this.turn++;
+		}
 
 		DOMHandler.clearOpponendGameboard();
-		DOMHandler.printOpponentsGameboard(Gamemanager.passivePlayer.gameboard.opponentsBoard());
+		DOMHandler.printOpponentsGameboard(Gamemanager.players[1].gameboard.opponentsBoard());
 	}
 }

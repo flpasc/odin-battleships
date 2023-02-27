@@ -9,8 +9,8 @@ export default class Player {
 		this.active = false;
 	}
 
-	fireShot(location) {
-		Gamemanager.passivePlayer.gameboard.assignHit(location);
-		if (Gamemanager.passivePlayer.gameboard.checkIfHit(location)) return true;
+	fireShot(location, player) {
+		player.gameboard.assignHit(location);
+		if (player.gameboard.checkIfHit(location)) return true;
 	}
 }

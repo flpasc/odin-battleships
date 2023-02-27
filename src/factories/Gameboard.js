@@ -1,3 +1,5 @@
+import Gamemanager from "../../helper/ Gamemanager";
+import DOMHandler from "../../helper/DOMHandler";
 import Ship from "./Ship";
 var _ = require("lodash");
 
@@ -46,23 +48,23 @@ export default class Gameboard {
 
 	isLegalPlacement(ship, index, direction) {
 		if (index < 0 || index + ship.length * 10 > 100) return false;
-		else {
-			for (let i = 0; i < ship.length; ++i) {
-				// check if ships on board[index]
-				if (this.board[index + i].hasShip === true) {
-					return false;
-				} else if (this.board[index + i * 10].hasShip === true) {
-					return false;
-					// check if ship exceeds this boarders
-				} else if (direction === "horizontal" && this.xBoarder.includes(index + i) && i != ship.length - 1) {
-					return false;
-				} else if (direction === "vertical" && this.yBoarder.includes(index + i * 10) && i != ship.length - 1) {
-					return false;
-				}
+
+		for (let i = 0; i < ship.length; ++i) {
+			// check if ships on board[index]
+			if (this.board[index + i].hasShip === true) {
+				return false;
+			} else if (this.board[index + i * 10].hasShip === true) {
+				return false;
+				// check if ship exceeds this boarders
+			} else if (direction === "horizontal" && this.xBoarder.includes(index + i) && i != ship.length - 1) {
+				return false;
+			} else if (direction === "vertical" && this.yBoarder.includes(index + i * 10) && i != ship.length - 1) {
+				return false;
 			}
-			return true;
 		}
+		return true;
 	}
+
 	assignHit(index) {
 		if (this.board[index].hasShot) return false;
 		else {
@@ -74,14 +76,9 @@ export default class Gameboard {
 		if (this.board[index].hasShip === true) {
 			this.hits++;
 
-			console.log(index);
-
 			this.deployedShips.forEach((ship) => {
-				console.log(_.includes(ship.position, index));
-				console.log(ship.position);
-
 				if (ship.position.includes(index)) {
-					ship.hits.push(index);
+					ship.hit(index);
 				}
 			});
 
@@ -90,18 +87,37 @@ export default class Gameboard {
 		return false;
 	}
 	allShipsSunk() {
-		let allSunk = false;
-		this.deployedShips.forEach((ship) => {
-			if (ship.isSunk() === false) {
-				allSunk = false;
-			} else if (ship.isSunk() === true) {
-				allSunk = true;
+		for (let i = 0; i < this.deployedShips.length; i++) {
+			if (!this.deployedShips[i].isSunk()) {
+				return false;
 			}
-		});
-		return allSunk;
+		}
+		return true;
 	}
 
-	cpuTurn() {}
+	cpuTurn() {
+		let endTurn = false;
+
+		while (endTurn === false) {
+			let randomLocation = Math.floor(Math.random() * 100);
+
+			if (Gamemanager.players[1].fireShot(randomLocation, Gamemanager.players[0])) {
+				DOMHandler.clearGameboard();
+				DOMHandler.printGameboard(Gamemanager.players[0].gameboard.board);
+				if (Gamemanager.players[0].gameboard.allShipsSunk()) {
+					endTurn = true;
+					Gamemanager.gameOver();
+				}
+				return;
+			} else {
+				DOMHandler.clearGameboard();
+				DOMHandler.printGameboard(Gamemanager.players[0].gameboard.board);
+				endTurn = true;
+			}
+		}
+		Gamemanager.turn++;
+	}
+
 	placeShipRandom(ship) {
 		const directions = ["horizontal", "vertical"];
 		let check = false;

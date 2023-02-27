@@ -6,6 +6,7 @@ export default class DOMHandler {
 		const gameBoard = document.getElementById("board");
 		const shipBoard = document.createElement("div");
 		shipBoard.classList = "shipboard";
+		shipBoard.id = "shipboard";
 
 		board.forEach((element) => {
 			let newField = document.createElement("div");
@@ -14,6 +15,15 @@ export default class DOMHandler {
 			if (element.hasShip === true) {
 				newField.classList.add("occupied");
 			}
+
+			if (element.hasShip === true && element.hasShot === true) {
+				newField.classList.add("hit");
+			}
+
+			if (element.hasShip === false && element.hasShot === true) {
+				newField.classList.add("miss");
+			}
+
 			shipBoard.appendChild(newField);
 		});
 		gameBoard.appendChild(shipBoard);
@@ -47,10 +57,16 @@ export default class DOMHandler {
 			if (element === "ship") {
 				newField.classList.add("ship");
 			}
+
 			opponenGameboard.appendChild(newField);
 			divID++;
 		});
 		gameBoard.appendChild(opponenGameboard);
+	}
+
+	static clearGame() {
+		const gameBoard = document.getElementById("board");
+		gameBoard.innerHTML = "";
 	}
 
 	static clearOpponendGameboard() {
@@ -58,16 +74,35 @@ export default class DOMHandler {
 		opponendGameboard.remove();
 	}
 
+	static clearGameboard() {
+		const playerGameboard = document.getElementById("shipboard");
+		playerGameboard.remove();
+	}
+
 	static setName() {
 		let name = document.getElementById("player-name").value;
 		const nameField = document.getElementById("p1name");
 
-		nameField.textContent = name;
+		nameField.textContent = name || "Player 1";
 		return name;
 	}
 
 	static closeNewGamePopup() {
 		let popup = document.getElementById("new-game-popup");
 		popup.style.display = "none";
+	}
+
+	static closeGameOverPopup() {
+		const gameOverPopup = document.getElementById("game-over-prompt");
+		gameOverPopup.style.display = "none";
+	}
+
+	static setPoints(player) {
+		const p1score = document.getElementById("p1score");
+		const p2score = document.getElementById("p2score");
+
+		if (player === player1) {
+			p1score.textContent = player.points;
+		}
 	}
 }

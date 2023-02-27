@@ -33,7 +33,8 @@ body {
 	min-height: 800px;
 	min-width: 800px;
 
-	display: flex;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	align-items: center;
 	justify-content: center;
 }
@@ -58,15 +59,18 @@ body {
 	text-align: center;
 }
 
-#new-game-popup {
+#new-game-popup,
+#game-over-prompt {
 	text-align: center;
 	width: 250px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	align-self: center;
+	justify-self: center;
+
 	padding: 20px;
 	background-color: rgba(128, 128, 128, 0.59);
+	grid-area: 1 / 1 / -1 / -1;
 }
 
 input {
@@ -95,4 +99,8 @@ input {
 
 .hit {
 	background-color: red;
+}
+
+.miss {
+	background-color: grey;
 }
